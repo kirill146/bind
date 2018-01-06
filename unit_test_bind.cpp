@@ -198,6 +198,15 @@ TEST(testBind, recBind2) {
 	EXPECT_EQ(my_struct::logger, "");
 }
 
+TEST(testBind, recBind3) {
+	my_struct::logger = "";
+	my_struct x, y;
+	auto w = call_once_bind(rec, bind(rec, _1, _2), _1);
+	EXPECT_EQ(my_struct::logger, "");
+	w(x, y);
+	EXPECT_EQ(my_struct::logger, "");
+}
+
 TEST(testCallOnceBind, moveFixedRvalueArgument) {
 	my_struct::logger = "";
 	auto w = call_once_bind(f, my_struct());
