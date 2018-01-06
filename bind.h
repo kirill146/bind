@@ -48,8 +48,8 @@ struct G {
 	do_not_remove_reference_from_array_t<A> a;
 };
 
-template <typename F, bool call_once, typename ... As>
-struct G<call_once, bind_t<F, call_once, As...>> {
+template <typename F, bool call_once, bool call_once_inner, typename ... As>
+struct G<call_once, bind_t<F, call_once_inner, As...>> {
 	template <typename AA>
 	G(AA&& f) : f(std::forward<AA>(f)) {}
 
@@ -58,7 +58,7 @@ struct G<call_once, bind_t<F, call_once, As...>> {
 		return f(std::forward<Bs>(bs)...);
 	}
 
-	bind_t<F, call_once, As...> f;
+	bind_t<F, call_once_inner, As...> f;
 };
 
 template <bool call_once>
